@@ -55,8 +55,8 @@ GameObject:
   - component: {fileID: 54680537629947226}
   - component: {fileID: 114361212106294906}
   - component: {fileID: 114293139262748456}
+  - component: {fileID: 114516563063999196}
   - component: {fileID: 114794043042856446}
-  - component: {fileID: 114116271057881712}
   m_Layer: 0
   m_Name: Banana
   m_TagString: Untagged
@@ -221,18 +221,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &114116271057881712
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1402500090909422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 716b11c3bdc2c4119bf07ae721e1e705, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 3
 --- !u!114 &114293139262748456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -286,6 +274,17 @@ MonoBehaviour:
     i15: 214
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114516563063999196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1402500090909422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716b11c3bdc2c4119bf07ae721e1e705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114794043042856446
 MonoBehaviour:
   m_ObjectHideFlags: 1
