@@ -13,6 +13,8 @@ using UnityEngine.Networking;
  * 
  * 3) Event Systems!!! (PlayerController.cs)
  * 
+ * 4) When it changes to banana, there is a bug
+ * 
 */
 
 public class SetupLocalPlayer : NetworkBehaviour {
