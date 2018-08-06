@@ -11,9 +11,11 @@ using UnityEngine.Networking;
  * 
  * 2) Fix Camera and Prefab Offset Distance (CameraController.cs)
  * 
- * 3) Event Systems!!! (PlayerController.cs)
+ * 3) Event Systems!!! ex: CmdTag() (PlayerController.cs)
  * 
- * 4) When it changes to banana, there is a bug
+ * 4) NetworkLobby value to NetworbManager
+ * 
+ * 5) When it changes to banana, there is a bug
  * 
 */
 
