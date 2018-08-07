@@ -36,7 +36,7 @@ public class Timer : NetworkBehaviour {
             if (timeRemaining < 1)
             {
                 timeRemaining = 0;
-                //SceneManager.LoadScene("EndScene");
+                SceneManager.LoadScene("EndScene");
             }
         }
 	}

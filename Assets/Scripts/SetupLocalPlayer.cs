@@ -9,19 +9,18 @@ using UnityEngine.Networking;
  * 
  * 1) Pull playerprefabIndex from CustomNetworkManager to change playerprefabs to the right one
  * 
- * 2) Fix Camera and Prefab Offset Distance (CameraController.cs)
+ * 2) Event Systems!!! ex: CmdTag() (PlayerController.cs)
  * 
- * 3) Event Systems!!! ex: CmdTag() (PlayerController.cs)
+ * 3) NetworkLobby value to NetworkManager
  * 
- * 4) NetworkLobby value to NetworbManager
- * 
- * 5) When it changes to banana, there is a bug
+ * 4) When it changes to banana, there is a bug
  * 
 */
 
 public class SetupLocalPlayer : NetworkBehaviour {
     public Timer t;
     public TextMesh timerText;
+
 
     [SyncVar(hook = "OnChangeTeam")]
     public int pTeam;
@@ -52,7 +51,7 @@ public class SetupLocalPlayer : NetworkBehaviour {
 
         if (isLocalPlayer)
         {
-            GetComponent<PlayerController>().enabled = true;
+            GetComponent<MyPlayerController>().enabled = true;
             t = FindObjectOfType<Timer>();
             CameraController.player = this.transform.GetChild(3);
             timerText.text = Mathf.Floor(t.timeRemaining).ToString();
@@ -60,7 +59,7 @@ public class SetupLocalPlayer : NetworkBehaviour {
         }
         else
         {
-            GetComponent<PlayerController>().enabled = false;
+            GetComponent<MyPlayerController>().enabled = false;
         }
 		
 	}
@@ -72,8 +71,6 @@ public class SetupLocalPlayer : NetworkBehaviour {
             timerText.text = Mathf.Floor(t.timeRemaining).ToString();
             if (t.timeRemaining < 31)
             {
-
-                // 1) Pull playerprefabIndex from CustomNetworkManager to change playerprefabs to the right one
                 CmdUpdatePlayerCharacter(2);
             }
         }

@@ -597,6 +597,8 @@ GameObject:
   - component: {fileID: 114689763385874452}
   - component: {fileID: 114022524953831440}
   - component: {fileID: 54857105673250410}
+  - component: {fileID: 114810122234908520}
+  - component: {fileID: 114159395191103980}
   m_Layer: 0
   m_Name: MonkeySeeker
   m_TagString: hider
@@ -6039,7 +6041,7 @@ Transform:
   m_GameObject: {fileID: 1159832396127008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children:
   - {fileID: 4943181530606834}
   - {fileID: 4992219017274914}
@@ -7357,7 +7359,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 716b11c3bdc2c4119bf07ae721e1e705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
 --- !u!114 &114081661987605162
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7369,6 +7370,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d60807fb688e124458fda9cf8e28fb2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114159395191103980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1159832396127008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114545864948160498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7436,6 +7450,17 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114810122234908520
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1159832396127008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d46e4631b79a4c74a9d93db414198e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!137 &137710104427363272
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

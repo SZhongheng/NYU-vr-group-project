@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.EventSystems;
 
-public class PlayerController : NetworkBehaviour {
+public class MyPlayerController : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler {
     private int speed = 20;
     Vector3 jumpDimensions;
     float jumpSpeed = 10.0f;
@@ -20,6 +21,8 @@ public class PlayerController : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        var rot = Quaternion.Euler(0.0f, Camera.main.transform.localEulerAngles.y, 0.0f);
+        this.transform.rotation = rot;
 	}
 
     public void OnPlayerPressing(Touch t)
@@ -34,10 +37,17 @@ public class PlayerController : NetworkBehaviour {
         Jump();
     }
 
+    public void OnPlayerSingleClick(Touch t)
+    {
+        CmdTag();
+    }
+
     void Move()
     {
         Debug.Log("Move");
+
         transform.position = transform.position + Camera.main.transform.forward * speed * Time.deltaTime;
+        this.transform.rotation = Camera.main.transform.localRotation;
     }
 
     void Jump()
@@ -48,5 +58,20 @@ public class PlayerController : NetworkBehaviour {
         rb.AddForce(jumpDimensions * jumpSpeed);
     }
 
+    [Command]
+    void CmdTag()
+    {
+        
+        Debug.Log("Tag Working");
+    }
 
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+    {
+        TouchListener.OnSingleClick += OnPlayerSingleClick;
+    }
+
+    void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+    {
+        TouchListener.OnSingleClick -= OnPlayerSingleClick;
+    }
 }
