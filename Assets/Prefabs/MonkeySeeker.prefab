@@ -1846,7 +1846,7 @@ GameObject:
   - component: {fileID: 4992219017274914}
   - component: {fileID: 137710104427363272}
   m_Layer: 0
-  m_Name: Monkey
+  m_Name: MonkeyCostume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7428,6 +7428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   t: {fileID: 0}
   timerText: {fileID: 0}
+  playerName: 
   pTeam: 0
 --- !u!114 &114689763385874452
 MonoBehaviour:

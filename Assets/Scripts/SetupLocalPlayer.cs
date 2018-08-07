@@ -18,67 +18,91 @@ using UnityEngine.Networking;
 */
 
 public class SetupLocalPlayer : NetworkBehaviour {
-    public Timer t;
-    public TextMesh timerText;
+    
+    public Timer t; // Timer Object
+    public TextMesh timerText; // textobject displaying time
 
+    public string playerName; // players parsed transform.name
+
+    // [SyncVar(hook = "OnChangeTimer")]
+    // public float timeRemaining;
 
     [SyncVar(hook = "OnChangeTeam")]
-    public int pTeam;
-
-   // [SyncVar(hook = "OnChangeTimer")]
-   // public float timeRemaining;
+    public int pTeam; // players team
 
 
+    void OnChangeTeam(int n)
+    {
+        // hook function to update pTeam
+        pTeam = n;
+    }
 
-
-    // To sync values for late comers
     public override void OnStartClient()
     {
         base.OnStartClient();
         OnChangeTeam(pTeam);
         t = FindObjectOfType<Timer>();
         timerText = FindObjectOfType<TextMesh>();
-
     }
 
-    void OnChangeTeam(int n) {
-        pTeam = n;
-
-    }
-
-    // Use this for initialization
     void Start () {
-
         if (isLocalPlayer)
         {
             GetComponent<MyPlayerController>().enabled = true;
-            t = FindObjectOfType<Timer>();
-            CameraController.player = this.transform.GetChild(3);
-            timerText.text = Mathf.Floor(t.timeRemaining).ToString();
-
+            //playerName = this.transform.name.Substring(0, 6);
+            Setup();
         }
         else
         {
             GetComponent<MyPlayerController>().enabled = false;
         }
-		
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    void Update()
+    {
         if (isLocalPlayer)
         {
             timerText.text = Mathf.Floor(t.timeRemaining).ToString();
-            if (t.timeRemaining < 31)
+
+            // condition to handle changing players halfway through the game
+            if (t.timeRemaining < 61)
             {
                 CmdUpdatePlayerCharacter(2);
             }
         }
-	}
+    }
+
+    void Setup()
+    {
+        // util function to setup 
+        t = FindObjectOfType<Timer>();
+        //CmdSendName(playerName); // playerName should be MonkeySeeker or Banana
+        CameraController.player = this.transform.GetChild(3);
+        timerText.text = Mathf.Floor(t.timeRemaining).ToString();
+    }
 
     [Command]
     public void CmdUpdatePlayerCharacter(int cid)
     {
+        RpcUpdatePlayerCharacter(cid);
+    }
+
+    [Command]
+    public void CmdSendName(string name)
+    {
+        RpcUpdateName(name);
+    }
+
+    [ClientRpc]
+    public void RpcUpdatePlayerCharacter(int cid)
+    {
+        // Look into changing the mesh instead!
         NetworkManager.singleton.GetComponent<CustomNetworkManager>().SwitchPlayer(this, cid);
+    }
+
+    [ClientRpc]
+    public void RpcUpdateName(string name)
+    {
+        transform.name = name;
     }
 }

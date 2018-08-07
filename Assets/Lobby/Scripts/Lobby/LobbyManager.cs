@@ -15,6 +15,8 @@ namespace Prototype.NetworkLobby
 
         static public LobbyManager s_Singleton;
 
+        public GameObject spawnPoint;
+
         private LobbyPlayer lp;
 
 
@@ -308,11 +310,10 @@ namespace Prototype.NetworkLobby
         public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, short playerControllerId)
         {
 
-            // teamNumber is stuck at 0. FIX THIS TODO
             gamePlayerPrefab = spawnPrefabs[lp.playerTeam + 1];
 
             // TODO: Have to instantiate at spawn points
-            GameObject obj = Instantiate(gamePlayerPrefab.gameObject) as GameObject;
+            GameObject obj = Instantiate(gamePlayerPrefab.gameObject, new Vector3(0, 104, 0), Quaternion.identity) as GameObject;
 
             return obj;
         }

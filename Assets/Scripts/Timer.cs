@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 
 public class Timer : NetworkBehaviour {
-    public TextMesh timerText;
+    public TextMesh timerText; // textobject displaying time
 
     [SyncVar(hook = "OnChangeTimer")]
-    public float timeRemaining;
+    public float timeRemaining; // time remaining in seconds
 
     void OnChangeTimer(float n)
     {
