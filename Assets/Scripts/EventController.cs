@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-public class EventController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler{
+using UnityEngine.Networking;
+
+public class EventController : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler{
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
-        print("enter");
         TouchListener.OnSingleClick += OnPlayerSingleClick;
     }
 
@@ -17,13 +18,16 @@ public class EventController : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPlayerSingleClick(Touch t)
     {
-        Debug.Log("PlayerSingleClicked");
-        //CmdTag();
+        CmdTag();
     }
 
-    //[Command]
-    //void CmdTag()
-    //{
-    //    Debug.Log("Tag Working");
-    //}
+    [Command]
+    void CmdTag()
+    {
+        if (this.transform.name == "Banana(Clone)")
+        {
+            Destroy(this.gameObject);
+        }
+
+    }
 }

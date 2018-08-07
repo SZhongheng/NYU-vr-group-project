@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.EventSystems;
 
-public class MyPlayerController : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler {
-    private int speed = 20;
+public class MyPlayerController : NetworkBehaviour{
+    private int speed = 60;
     Vector3 jumpDimensions;
     float jumpSpeed = 10.0f;
     Rigidbody rb;
@@ -37,11 +37,6 @@ public class MyPlayerController : NetworkBehaviour, IPointerEnterHandler, IPoint
         Jump();
     }
 
-    public void OnPlayerSingleClick(Touch t)
-    {
-        CmdTag();
-    }
-
     void Move()
     {
         Debug.Log("Move");
@@ -54,24 +49,8 @@ public class MyPlayerController : NetworkBehaviour, IPointerEnterHandler, IPoint
     {
         Debug.Log("Jump");
         // Maybe velocity
-        jumpDimensions = new Vector3(0.0f, 90.0f, 0.0f);
+        jumpDimensions = new Vector3(0.0f, 200.0f, 0.0f);
         rb.AddForce(jumpDimensions * jumpSpeed);
     }
 
-    [Command]
-    void CmdTag()
-    {
-        
-        Debug.Log("Tag Working");
-    }
-
-    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
-    {
-        TouchListener.OnSingleClick += OnPlayerSingleClick;
-    }
-
-    void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
-    {
-        TouchListener.OnSingleClick -= OnPlayerSingleClick;
-    }
 }

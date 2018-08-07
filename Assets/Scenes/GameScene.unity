@@ -1269,7 +1269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 67176452}
-  timeRemaining: 40
+  timeRemaining: 300
 --- !u!1 &954689752 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100146, guid: 33312e832e19445d6ae6383f6921ca32,
