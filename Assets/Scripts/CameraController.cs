@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class CameraController : NetworkBehaviour {
-    public static Transform player;
-    public Vector3 distance;
+    public static Transform player; // the object we want the camera to snap to (CameraPos)
 
     public override void OnStartLocalPlayer()
     {

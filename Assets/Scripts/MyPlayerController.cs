@@ -5,11 +5,10 @@ using UnityEngine.Networking;
 using UnityEngine.EventSystems;
 
 public class MyPlayerController : NetworkBehaviour{
-    private int speed = 60;
-    Vector3 jumpDimensions;
-    float jumpSpeed = 10.0f;
-    Rigidbody rb;
-    private Vector3 distance;
+    private int movementSpeed = 60; // movement speed of the player
+    Vector3 jumpDimensions; // Vector3 values of which the player should jump to
+    float jumpSpeed = 10.0f; // speed of jump
+    Rigidbody rb; // Rigidbody of the player
 
 	// Use this for initialization
 	void Start () {
@@ -41,7 +40,7 @@ public class MyPlayerController : NetworkBehaviour{
     {
         Debug.Log("Move");
 
-        transform.position = transform.position + Camera.main.transform.forward * speed * Time.deltaTime;
+        transform.position = transform.position + Camera.main.transform.forward * movementSpeed * Time.deltaTime;
         this.transform.rotation = Camera.main.transform.localRotation;
     }
 
