@@ -24,7 +24,7 @@ public class EventController : NetworkBehaviour, IPointerEnterHandler, IPointerE
     [Command]
     void CmdTag()
     {
-        if (this.transform.name == "Banana(Clone)")
+        if (this.transform.name == "Banana")
         {
             Destroy(this.gameObject);
         }

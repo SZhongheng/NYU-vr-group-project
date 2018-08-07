@@ -37,19 +37,14 @@ public class SetupLocalPlayer : NetworkBehaviour {
         pTeam = n;
     }
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        OnChangeTeam(pTeam);
-        t = FindObjectOfType<Timer>();
-        timerText = FindObjectOfType<TextMesh>();
-    }
 
     void Start () {
         if (isLocalPlayer)
         {
             GetComponent<MyPlayerController>().enabled = true;
-            //playerName = this.transform.name.Substring(0, 6);
+            OnChangeTeam(pTeam);
+            t = FindObjectOfType<Timer>();
+            timerText = FindObjectOfType<TextMesh>();
             Setup();
         }
         else
@@ -62,6 +57,15 @@ public class SetupLocalPlayer : NetworkBehaviour {
     {
         if (isLocalPlayer)
         {
+            if (t == null || timerText == null)
+            {
+                OnChangeTeam(pTeam);
+                t = FindObjectOfType<Timer>();
+                timerText = FindObjectOfType<TextMesh>();
+                playerName = this.transform.name.Substring(0, 6);
+                Setup();
+            }
+
             timerText.text = Mathf.Floor(t.timeRemaining).ToString();
 
             // condition to handle changing players halfway through the game
@@ -76,7 +80,7 @@ public class SetupLocalPlayer : NetworkBehaviour {
     {
         // util function to setup 
         t = FindObjectOfType<Timer>();
-        //CmdSendName(playerName); // playerName should be MonkeySeeker or Banana
+        CmdSendName(playerName);
         CameraController.player = this.transform.GetChild(3);
         timerText.text = Mathf.Floor(t.timeRemaining).ToString();
     }
@@ -97,6 +101,7 @@ public class SetupLocalPlayer : NetworkBehaviour {
     public void RpcUpdatePlayerCharacter(int cid)
     {
         // Look into changing the mesh instead!
+        // This does not work with Lobby because CustomNetworkManager is not being used!
         NetworkManager.singleton.GetComponent<CustomNetworkManager>().SwitchPlayer(this, cid);
     }
 

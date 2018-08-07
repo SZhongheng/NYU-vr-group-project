@@ -7,8 +7,9 @@ using UnityEngine.EventSystems;
 public class MyPlayerController : NetworkBehaviour{
     private int movementSpeed = 60; // movement speed of the player
     Vector3 jumpDimensions; // Vector3 values of which the player should jump to
-    float jumpSpeed = 10.0f; // speed of jump
+    float jumpSpeed = 80.0f; // speed of jump
     Rigidbody rb; // Rigidbody of the player
+    private bool isTouching = true;
 
 	// Use this for initialization
 	void Start () {
@@ -33,7 +34,12 @@ public class MyPlayerController : NetworkBehaviour{
     public void OnPlayerDoubleClick(Touch t)
     {
         Debug.Log("On Double Click");
-        Jump();
+        if (isTouching == true)
+        {
+            isTouching = false;
+            Jump();
+        }
+
     }
 
     void Move()
@@ -48,8 +54,14 @@ public class MyPlayerController : NetworkBehaviour{
     {
         Debug.Log("Jump");
         // Maybe velocity
-        jumpDimensions = new Vector3(0.0f, 200.0f, 0.0f);
+        jumpDimensions = new Vector3(0.0f, 30.0f, 0.0f);
         rb.AddForce(jumpDimensions * jumpSpeed);
+    }
+
+    private void OnCollisionStay()
+    {
+        // variable to prevent double jump
+        isTouching = true;
     }
 
 }
