@@ -3311,7 +3311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2d4d3a39c3cf41048d4dbf1d3d6ab3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MusicClip: {fileID: 8300000, guid: 0260d10963522a642a8e714e973e0c9f, type: 3}
+  MusicClip: {fileID: 8300000, guid: 432d59c7478ba924dad88c5c146aaab1, type: 3}
   MusicSource: {fileID: 2094821345}
 --- !u!82 &2094821345
 AudioSource:
