@@ -4,8 +4,16 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - speeduptag
+  - missiletag
+  - timertag
+  - team0tag
+  - team1tag
+  - bananatag
+  - monkeytag
   - hider
-  - seeker
+  - tagger
+  - plane
   layers:
   - Default
   - TransparentFX

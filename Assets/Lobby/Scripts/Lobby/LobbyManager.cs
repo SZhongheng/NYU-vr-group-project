@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.Types;
 using UnityEngine.Networking.Match;
 using System.Collections;
+using System.Collections.Generic;
 
 
 namespace Prototype.NetworkLobby
@@ -17,7 +18,9 @@ namespace Prototype.NetworkLobby
 
         public GameObject spawnPoint;
 
-        private LobbyPlayer lp;
+        private List<LobbyPlayer> LobbyPlayerList = new List<LobbyPlayer>();
+
+        System.Random rnd = new System.Random();
 
 
         [Header("Unity UI Lobby")]
@@ -34,6 +37,8 @@ namespace Prototype.NetworkLobby
         public LobbyInfoPanel infoPanel;
         public LobbyCountdownPanel countdownPanel;
         public GameObject addPlayerButton;
+        public GameObject[] characterSpawnLocationObjects = new GameObject[4];
+        public GameObject[] playerCharacterObjects = new GameObject[2];
 
         protected RectTransform currentPanel;
 
@@ -288,7 +293,7 @@ namespace Prototype.NetworkLobby
 
             LobbyPlayer newPlayer = obj.GetComponent<LobbyPlayer>();
             newPlayer.ToggleJoinButton(numPlayers + 1 >= minPlayers);
-            lp = FindObjectOfType<LobbyPlayer>();
+            LobbyPlayerList.Add(newPlayer);
 
 
 
@@ -310,10 +315,17 @@ namespace Prototype.NetworkLobby
         public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, short playerControllerId)
         {
 
-            gamePlayerPrefab = spawnPrefabs[lp.playerTeam + 1];
+            LobbyPlayer lp = LobbyPlayerList[conn.connectionId];
+            int spawnPositionIndex = rnd.Next(0, 3);
+            int spawnCharacterIndex = lp.playerTeam;
+            Vector3 finalSpawnPosition = characterSpawnLocationObjects[spawnPositionIndex].transform.position;
+            GameObject prefabToSpawn = playerCharacterObjects[spawnCharacterIndex];
+            // TODO: This is only spawning the last players selected teams prefab
+            //gamePlayerPrefab = spawnPrefabs[lp.playerTeam + 1];
 
-            // TODO: Have to instantiate at spawn points
-            GameObject obj = Instantiate(gamePlayerPrefab.gameObject, new Vector3(0, 104, 0), Quaternion.identity) as GameObject;
+            GameObject obj = Instantiate(prefabToSpawn, finalSpawnPosition, Quaternion.identity) as GameObject;
+
+            obj.GetComponent<SetupLocalPlayer>().teamNumber = spawnCharacterIndex;
 
             return obj;
         }
