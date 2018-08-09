@@ -4,33 +4,26 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.EventSystems;
 
-public class MonkeyController : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler {
+
+public class MonkeyController : NetworkBehaviour{
     
     Vector3 jumpDimensions; // Vector3 values of which the player should jump to
-    public float jumpSpeed = 80.0f; // speed of jump
+    public float jumpSpeed = 100.0f; // speed of jump
 
     Rigidbody rb; // Rigidbody of the player
 
     public int movementSpeed = 40;
 
-    public bool isTouching = true;
     public bool hasMissile = false;
     public bool hasSpeedUp = false;
 
+    public GameObject taggerPrefab;
     public GameObject missilePrefab;
     public Transform missileSpawn;
+    public Transform taggerSpawn;
 
-    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
-    {
-        TouchListener.OnSingleClick -= OnPlayerSingleClickWithPowerup;
-        TouchListener.OnSingleClick += OnPlayerSingleClick;
-    }
-
-    void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
-    {
-        TouchListener.OnSingleClick -= OnPlayerSingleClick;
-        TouchListener.OnSingleClick += OnPlayerSingleClickWithPowerup;
-    }
+    Animator animator;
+    bool playerIsGrounded = true;
 
 	void Start () {
 		if (!isLocalPlayer)
@@ -42,7 +35,9 @@ public class MonkeyController : NetworkBehaviour, IPointerEnterHandler, IPointer
 
         TouchListener.OnLongPressing += OnPlayerPressing;
         TouchListener.OnDoubleClick += OnPlayerDoubleClick;
-        TouchListener.OnSingleClick += OnPlayerSingleClickWithPowerup;
+        TouchListener.OnRelease += OnPlayerRelease;
+        TouchListener.OnSingleClick += OnPlayerSingleClick;
+        animator = this.GetComponent<Animator>();
 	}
 	
     void Update()
@@ -65,12 +60,35 @@ public class MonkeyController : NetworkBehaviour, IPointerEnterHandler, IPointer
     public void OnPlayerDoubleClick(Touch t)
     {
         Debug.Log("On Double Click");
-        if (isTouching == true)
-        {
-            isTouching = false;
-            Jump();
-        }
+        animator.Play("jump", 0, 0f);
+        Jump();
 
+    }
+
+    public void OnPlayerSingleClick(Touch t)
+    {
+        if (isLocalPlayer)
+        {
+            animator.Play("attack1", 0, 0f);
+        }
+        CmdTag();
+    }
+
+    [Command]
+    void CmdTag()
+    {
+        GameObject tagger = (GameObject)Instantiate(taggerPrefab, taggerSpawn.position, taggerSpawn.rotation);
+        tagger.GetComponent<Rigidbody>().velocity = -tagger.transform.right * 200.0f;
+        NetworkServer.Spawn(tagger);
+        Destroy(tagger, 0.2f);
+    }
+
+    public void OnPlayerRelease(Touch t)
+    {
+        if (isLocalPlayer)
+        {
+            animator.SetBool("walk", false);
+        }
     }
 
     public void OnPlayerSingleClickWithPowerup(Touch t)
@@ -84,18 +102,18 @@ public class MonkeyController : NetworkBehaviour, IPointerEnterHandler, IPointer
         {
             CmdShoot();
             hasMissile = false;
+            TouchListener.OnSingleClick -= OnPlayerSingleClickWithPowerup;
+            TouchListener.OnSingleClick += OnPlayerSingleClick;
         }
         else if (hasSpeedUp)
         {
             SpeedUp();
             hasSpeedUp = false;
+            TouchListener.OnSingleClick -= OnPlayerSingleClickWithPowerup;
+            TouchListener.OnSingleClick += OnPlayerSingleClick;
         }
     }
 
-    public void OnPlayerSingleClick(Touch t)
-    {
-        CmdTag();
-    }
 
     [Command]
     void CmdShoot()
@@ -106,14 +124,6 @@ public class MonkeyController : NetworkBehaviour, IPointerEnterHandler, IPointer
         Destroy(missile, 10.0f);
     }
 
-    [Command]
-    void CmdTag()
-    {
-        if (this.transform.tag == "bananatag")
-        {
-            Destroy(this.gameObject);
-        }
-    }
 
     void SpeedUp()
     {
@@ -127,19 +137,22 @@ public class MonkeyController : NetworkBehaviour, IPointerEnterHandler, IPointer
     {
         transform.position = transform.position + Camera.main.transform.forward * movementSpeed * Time.deltaTime;
         this.transform.rotation = Camera.main.transform.localRotation;
+
+        if (isLocalPlayer)
+        {
+            animator.SetBool("walk", true);
+        }
     }
 
     void Jump()
     {
-        jumpDimensions = new Vector3(0.0f, 30.0f, 0.0f);
-        rb.AddForce(jumpDimensions * jumpSpeed);
+        if (playerIsGrounded)
+        {
+            jumpDimensions = new Vector3(0.0f, 30.0f, 0.0f);
+            rb.AddForce(jumpDimensions * jumpSpeed);
+        }
     }
 
-    private void OnCollisionStay()
-    {
-        // variable to prevent double jump
-        isTouching = true;
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -160,6 +173,19 @@ public class MonkeyController : NetworkBehaviour, IPointerEnterHandler, IPointer
             }
         }
 
+
+        if (other.tag == "plane")
+        {
+            playerIsGrounded = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "plane")
+        {
+            playerIsGrounded = false;
+        }
     }
 
     [ClientRpc]
@@ -167,6 +193,8 @@ public class MonkeyController : NetworkBehaviour, IPointerEnterHandler, IPointer
     {
         if (isLocalPlayer)
         {
+            TouchListener.OnSingleClick -= OnPlayerSingleClick;
+            TouchListener.OnSingleClick += OnPlayerSingleClickWithPowerup;
             this.hasSpeedUp = false;
             this.hasMissile = true;
         }
@@ -177,6 +205,8 @@ public class MonkeyController : NetworkBehaviour, IPointerEnterHandler, IPointer
     {
         if (isLocalPlayer)
         {
+            TouchListener.OnSingleClick -= OnPlayerSingleClick;
+            TouchListener.OnSingleClick += OnPlayerSingleClickWithPowerup;
             this.hasSpeedUp = true;
             this.hasMissile = false;
         }

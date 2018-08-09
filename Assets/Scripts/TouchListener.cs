@@ -12,6 +12,7 @@ public class TouchListener : MonoBehaviour
     public static event TouchHandler OnSingleClick;
     public static event TouchHandler OnDoubleClick;
     public static event TouchHandler OnLongPressing;
+    public static event TouchHandler OnRelease;
 
     private Touch _touch;
     private float _touchTimer = 0.0f;
@@ -57,6 +58,10 @@ public class TouchListener : MonoBehaviour
                     else if (_touchTimer < LongPressThreshold)
                     {
                         StartCoroutine(CheckSingleClick());
+                    }
+                    else if (_touchTimer > LongPressThreshold) {
+                        StopAllCoroutines();
+                        OnRelease.Invoke(_touch);
                     }
 
                     break;

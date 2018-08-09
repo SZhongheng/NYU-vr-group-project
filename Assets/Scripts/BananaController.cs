@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 using UnityEngine;
 
 
-public class BananaController : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler {
+public class BananaController : NetworkBehaviour{
 
     Vector3 jumpDimensions; // Vector3 values of which the player should jump to
     public float jumpSpeed = 80.0f; // speed of jump
@@ -22,15 +22,6 @@ public class BananaController : NetworkBehaviour, IPointerEnterHandler, IPointer
     public Transform missileSpawn;
     public Score scoreBoard;
 
-    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
-    {
-        TouchListener.OnSingleClick += OnPlayerSingleClick;
-    }
-
-    void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
-    {
-        TouchListener.OnSingleClick -= OnPlayerSingleClick;
-    }
 
     void Start()
     {
@@ -74,28 +65,14 @@ public class BananaController : NetworkBehaviour, IPointerEnterHandler, IPointer
 
     }
 
-    public void OnPlayerSingleClick(Touch t)
-    {
-        if (isServer)
-        {
-            RpcTag();   
-        }
-    }
-
-    [ClientRpc]
-    void RpcTag()
-    {
-        if (isLocalPlayer)
-        {
-            Destroy(this.gameObject);
-        }
-    }
-
 
     void Move()
     {
         transform.position = transform.position + Camera.main.transform.forward * movementSpeed * Time.deltaTime;
         this.transform.rotation = Camera.main.transform.localRotation;
+
+
+        // Go to walk animation
     }
 
     void Jump()
@@ -113,7 +90,7 @@ public class BananaController : NetworkBehaviour, IPointerEnterHandler, IPointer
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "missiletag" && isLocalPlayer)
+        if ((collision.gameObject.tag == "missiletag"||collision.gameObject.tag == "tagger") && isLocalPlayer)
         {
             this.GetComponent<NetworkIdentity>().AssignClientAuthority(this.GetComponent<NetworkIdentity>().connectionToClient);
             Debug.Log("entered");

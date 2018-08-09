@@ -11,6 +11,9 @@ TagManager:
   - team1tag
   - bananatag
   - monkeytag
+  - hider
+  - tagger
+  - plane
   layers:
   - Default
   - TransparentFX
