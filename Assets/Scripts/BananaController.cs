@@ -22,6 +22,13 @@ public class BananaController : NetworkBehaviour{
     public Transform missileSpawn;
     public Score scoreBoard;
 
+    public Transform deathCam;
+
+    public Timer t;
+    public TextMesh timerText;
+
+    public Score score;
+
 
     void Start()
     {
@@ -30,8 +37,10 @@ public class BananaController : NetworkBehaviour{
             return;
         }
 
-        scoreBoard = GetComponent<Score>();
         rb = this.GetComponent<Rigidbody>();
+        deathCam = GameObject.FindWithTag("deathcamtag").transform;
+        score = GetComponent<Score>();
+
 
         TouchListener.OnLongPressing += OnPlayerPressing;
         TouchListener.OnDoubleClick += OnPlayerDoubleClick;
@@ -46,6 +55,14 @@ public class BananaController : NetworkBehaviour{
 
         var rot = Quaternion.Euler(0.0f, Camera.main.transform.localEulerAngles.y, 0.0f);
         this.transform.rotation = rot;
+
+        if (t == null || timerText == null)
+        {
+            t = FindObjectOfType<Timer>();
+            timerText = GameObject.FindGameObjectWithTag("timertag").GetComponent<TextMesh>();
+        }
+
+        timerText.text = Mathf.Floor(t.timeRemaining).ToString();
     }
 
     public void OnPlayerPressing(Touch t)
@@ -96,7 +113,15 @@ public class BananaController : NetworkBehaviour{
             Debug.Log("entered");
             Debug.Log(collision.gameObject);
             Debug.Log("entered 2");
+            CameraController.player = deathCam;
+            timerText.text = "You got Tagged";
+            CmdChangeIsDead();
             CmdDeactivateBanana(collision.gameObject);
+        }
+
+        if (collision.gameObject.tag == "missiletag" || collision.gameObject.tag == "tagger")
+        {
+            NetworkManager.singleton.ServerChangeScene("EndScene2");
         }
     }
 
@@ -106,6 +131,23 @@ public class BananaController : NetworkBehaviour{
         NetworkServer.Destroy(other);
         NetworkServer.Destroy(this.gameObject);
     }
+
+    [Command]
+    void CmdChangeIsDead()
+    {
+        RpcChangeIsDead();
+    }
+
+    [ClientRpc]
+    void RpcChangeIsDead()
+    {
+        if (isLocalPlayer)
+        {
+            SetupLocalPlayer.isDead = true;
+        }
+    }
+
+
 
     //[ClientRpc]
     //void RpcDeactivateBanana(GameObject other)

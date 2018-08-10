@@ -14,6 +14,7 @@ TagManager:
   - hider
   - tagger
   - plane
+  - deathcamtag
   layers:
   - Default
   - TransparentFX

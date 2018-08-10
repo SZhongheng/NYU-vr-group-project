@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 
 public class Timer : NetworkBehaviour {
+
+    public Timer t;
+    public TextMesh timerText;
     
     [SyncVar(hook = "OnChangeTimer")]
     public float timeRemaining; // time remaining in seconds
@@ -34,6 +37,7 @@ public class Timer : NetworkBehaviour {
                 NetworkManager.singleton.ServerChangeScene("EndScene");
             }
         }
+
 	}
 
 }

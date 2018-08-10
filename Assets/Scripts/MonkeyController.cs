@@ -25,6 +25,9 @@ public class MonkeyController : NetworkBehaviour{
     Animator animator;
     bool playerIsGrounded = true;
 
+    public Timer t;
+    public TextMesh timerText;
+
 	void Start () {
 		if (!isLocalPlayer)
         {
@@ -49,6 +52,14 @@ public class MonkeyController : NetworkBehaviour{
 
         var rot = Quaternion.Euler(0.0f, Camera.main.transform.localEulerAngles.y, 0.0f);
         this.transform.rotation = rot;
+
+        if (t == null || timerText == null)
+        {
+            t = FindObjectOfType<Timer>();
+            timerText = GameObject.FindGameObjectWithTag("timertag").GetComponent<TextMesh>();
+        }
+
+        timerText.text = Mathf.Floor(t.timeRemaining).ToString();
     }
 
     public void OnPlayerPressing(Touch t)

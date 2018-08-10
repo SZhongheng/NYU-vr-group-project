@@ -96,6 +96,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1752491208748350
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4861054963540360}
+  - component: {fileID: 23201563460360636}
+  - component: {fileID: 102175207042262716}
+  m_Layer: 0
+  m_Name: NameTextPrefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &4318127758868988
 Transform:
   m_ObjectHideFlags: 1
@@ -129,16 +146,30 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1402500090909422}
   m_LocalRotation: {x: 0.12143622, y: -0, z: -0, w: 0.9925993}
-  m_LocalPosition: {x: 0, y: 4.67, z: -0.08}
+  m_LocalPosition: {x: 0, y: 100, z: -0.08}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 4905371458127138}
   - {fileID: 4940374359920558}
   - {fileID: 4318127758868988}
   - {fileID: 4351431179643204}
+  - {fileID: 4861054963540360}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4861054963540360
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1752491208748350}
+  m_LocalRotation: {x: -0, y: 0.9925993, z: -0.12143622, w: 0}
+  m_LocalPosition: {x: 0, y: 153, z: -39}
+  m_LocalScale: {x: 8.333334, y: 8.333332, z: 8.333335}
+  m_Children: []
+  m_Father: {fileID: 4413302478151430}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &4905371458127138
 Transform:
   m_ObjectHideFlags: 1
@@ -165,6 +196,41 @@ Transform:
   m_Father: {fileID: 4413302478151430}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &23201563460360636
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1752491208748350}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 10100, guid: 0000000000000000e000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!23 &23697511970320424
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -223,6 +289,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!102 &102175207042262716
+TextMesh:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1752491208748350}
+  m_Text: Hello World
+  m_OffsetZ: 0
+  m_CharacterSize: 1
+  m_LineSpacing: 1
+  m_Anchor: 1
+  m_Alignment: 1
+  m_TabSize: 4
+  m_FontSize: 100
+  m_FontStyle: 0
+  m_RichText: 1
+  m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
 --- !u!114 &114278140177674560
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -320,6 +407,9 @@ MonoBehaviour:
     type: 2}
   missileSpawn: {fileID: 4318127758868988}
   scoreBoard: {fileID: 0}
+  deathCam: {fileID: 0}
+  t: {fileID: 0}
+  timerText: {fileID: 0}
 --- !u!114 &114794043042856446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -333,7 +423,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   t: {fileID: 0}
   timerText: {fileID: 0}
+  namePrefab: {fileID: 102175207042262716}
   teamNumber: 0
+  pName: player
+  pTeam: 0
 --- !u!136 &136143792258942446
 CapsuleCollider:
   m_ObjectHideFlags: 1
