@@ -22,6 +22,11 @@ public class BananaController : NetworkBehaviour{
     public Transform missileSpawn;
     public Score scoreBoard;
 
+    public Transform deathCam;
+
+    public Timer t;
+    public TextMesh timerText;
+
 
     void Start()
     {
@@ -32,6 +37,8 @@ public class BananaController : NetworkBehaviour{
 
         scoreBoard = GetComponent<Score>();
         rb = this.GetComponent<Rigidbody>();
+        deathCam = GameObject.FindWithTag("deathcamtag").transform;
+
 
         TouchListener.OnLongPressing += OnPlayerPressing;
         TouchListener.OnDoubleClick += OnPlayerDoubleClick;
@@ -46,6 +53,14 @@ public class BananaController : NetworkBehaviour{
 
         var rot = Quaternion.Euler(0.0f, Camera.main.transform.localEulerAngles.y, 0.0f);
         this.transform.rotation = rot;
+
+        if (t == null || timerText == null)
+        {
+            t = FindObjectOfType<Timer>();
+            timerText = GameObject.FindGameObjectWithTag("timertag").GetComponent<TextMesh>();
+        }
+
+        timerText.text = Mathf.Floor(t.timeRemaining).ToString();
     }
 
     public void OnPlayerPressing(Touch t)
@@ -96,6 +111,8 @@ public class BananaController : NetworkBehaviour{
             Debug.Log("entered");
             Debug.Log(collision.gameObject);
             Debug.Log("entered 2");
+            CameraController.player = deathCam;
+            timerText.text = "You got Tagged";
             CmdDeactivateBanana(collision.gameObject);
         }
     }

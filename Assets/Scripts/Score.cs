@@ -9,8 +9,9 @@ public class Score : NetworkBehaviour
     public TextMesh team0Score;
     public TextMesh team1Score;
 
-    SetupLocalPlayer[] localPlayersArray;
-    List<int> teamNumbersList;
+    public static List<GameObject> team0List;
+    public static List<GameObject> team1List;
+
 
     [SyncVar(hook = "OnChangeTeam0")]
     public int teamRemaining0;
@@ -36,12 +37,6 @@ public class Score : NetworkBehaviour
             team0Score = GameObject.FindGameObjectWithTag("team0tag").GetComponent<TextMesh>();
             team1Score = GameObject.FindGameObjectWithTag("team1tag").GetComponent<TextMesh>();
         }
-        localPlayersArray = GetComponents<SetupLocalPlayer>();
-
-        foreach (SetupLocalPlayer slp in localPlayersArray)
-        {
-            teamNumbersList.Add(slp.teamNumber);
-        }
 
     }
 
@@ -50,8 +45,8 @@ public class Score : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            team0Score.text = teamRemaining0.ToString();
-            team1Score.text = teamRemaining1.ToString();
+            team0Score.text = team0List.Count.ToString();
+            team1Score.text = team1List.Count.ToString();
         }
     }
 }
