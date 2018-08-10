@@ -11,6 +11,8 @@ public class SetupLocalPlayer : NetworkBehaviour
 
     public TextMesh namePrefab;
 
+    public static bool isDead;
+
     public int teamNumber;
     string textboxname = "";
 
@@ -30,15 +32,6 @@ public class SetupLocalPlayer : NetworkBehaviour
     {
         OnChangeName(pName);
         OnChangeTeam(pTeam);
-        Debug.Log(Score.team0List);
-        //if (pTeam == 0)
-        //{
-        //    Score.team0List.Add(this.gameObject);
-        //}
-        //else 
-        //{
-        //    Score.team1List.Add(this.gameObject);
-        //}
     }
 
     void OnChangeName(string n)

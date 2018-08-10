@@ -27,6 +27,8 @@ public class BananaController : NetworkBehaviour{
     public Timer t;
     public TextMesh timerText;
 
+    public Score score;
+
 
     void Start()
     {
@@ -35,9 +37,9 @@ public class BananaController : NetworkBehaviour{
             return;
         }
 
-        scoreBoard = GetComponent<Score>();
         rb = this.GetComponent<Rigidbody>();
         deathCam = GameObject.FindWithTag("deathcamtag").transform;
+        score = GetComponent<Score>();
 
 
         TouchListener.OnLongPressing += OnPlayerPressing;
@@ -113,7 +115,13 @@ public class BananaController : NetworkBehaviour{
             Debug.Log("entered 2");
             CameraController.player = deathCam;
             timerText.text = "You got Tagged";
+            CmdChangeIsDead();
             CmdDeactivateBanana(collision.gameObject);
+        }
+
+        if (collision.gameObject.tag == "missiletag" || collision.gameObject.tag == "tagger")
+        {
+            NetworkManager.singleton.ServerChangeScene("EndScene2");
         }
     }
 
@@ -123,6 +131,23 @@ public class BananaController : NetworkBehaviour{
         NetworkServer.Destroy(other);
         NetworkServer.Destroy(this.gameObject);
     }
+
+    [Command]
+    void CmdChangeIsDead()
+    {
+        RpcChangeIsDead();
+    }
+
+    [ClientRpc]
+    void RpcChangeIsDead()
+    {
+        if (isLocalPlayer)
+        {
+            SetupLocalPlayer.isDead = true;
+        }
+    }
+
+
 
     //[ClientRpc]
     //void RpcDeactivateBanana(GameObject other)
